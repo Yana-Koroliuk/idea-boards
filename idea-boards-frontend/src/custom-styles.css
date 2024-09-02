@@ -1,0 +1,9 @@
+.section-card {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.section-card .card-body {
+    flex-grow: 1;
+}

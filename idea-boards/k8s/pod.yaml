@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: idea-boards
+  namespace: default
+spec:
+  containers:
+    - name: idea-boards
+      image: public.ecr.aws/s7g6m6c2/idea-boards
+      ports:
+        - containerPort: 80

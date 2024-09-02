@@ -1,0 +1,26 @@
+stages:
+  - build
+  - build-docker
+  - deploy
+
+build-java:
+  stage: build
+  script:
+    - mvn clean package
+  artifacts:
+    paths:
+      - target/idea-boards-0.0.1-SNAPSHOT.jar
+    expire_in: 1 hour
+
+build-image:
+  stage: build-docker
+  script:
+    - echo $HOME
+    - docker build -t public.ecr.aws/s7g6m6c2/idea-boards .
+    - aws ecr-public get-login-password --region us-east-1 | docker login --username AWS --password-stdin public.ecr.aws/s7g6m6c2
+    - docker push public.ecr.aws/s7g6m6c2/idea-boards
+
+deploy:
+  stage: deploy
+  script:
+    - kubectl apply -f k8s/pod.yaml
